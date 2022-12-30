@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Kasir Kafe P3UT</string>
+    <string name="button_not_register">Tidak memiliki akun? <font color='#fad06c'>Daftar Sekarang</font></string>
+    <string name="after_register">Sudah memiliki akun? <font color='#fad06c'>Login Sekarang</font></string>
+    <string name="batal">Batal</string>
+    <string name="keluar">Keluar</string>
+    <string name="riwayat">Riwayat</string>
+    <string name="akun">Akun</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

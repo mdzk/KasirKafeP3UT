@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/bg_semua"
+    tools:context=".activity.AddEditActivity">
+
+    <EditText
+        android:id="@+id/et_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/et_tanggal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:hint="Tanggal"
+        android:focusableInTouchMode="false"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/et_jam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:focusableInTouchMode="false"
+        android:hint="Jam"
+        android:inputType="time" />
+
+    <EditText
+        android:id="@+id/et_kode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:focusableInTouchMode="false"
+        android:hint="Kode Menu" />
+
+    <EditText
+        android:id="@+id/et_harga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:inputType="number"
+        android:hint="Harga" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Simpan"
+            android:textColor="@color/kuning"
+            android:backgroundTint="@color/biru_tua"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Batal"
+            android:textColor="@color/kuning"
+            android:backgroundTint="@color/biru_tua"/>
+
+    </LinearLayout>
+
+</LinearLayout>
