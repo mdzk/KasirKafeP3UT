@@ -8,6 +8,11 @@
     android:padding="10dp"
     tools:context=".activity.MenuActivity">
 
+    <ImageView
+        android:id="@+id/datagambar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <ListView
         android:id="@+id/lv_data_menu"
         android:layout_width="match_parent"

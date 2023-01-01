@@ -36,7 +36,8 @@ import java.net.URL;
 public class AddEditMenuActivity extends AppCompatActivity {
 
     Button btnSubmit, btnCancel, btnimage;
-    Bitmap databitmap,gambar;
+    Bitmap databitmap;
+    Object gambar;
     ImageView imageView;
     int SELECT_IMAGE_CODE=1;
     EditText etId, etKode, etKategori, etNama, etKeterangan, etHarga;
@@ -66,7 +67,7 @@ public class AddEditMenuActivity extends AppCompatActivity {
         nama = getIntent().getStringExtra(MenuActivity.TAG_NAMA);
         keterangan = getIntent().getStringExtra(MenuActivity.TAG_KETERANGAN);
         harga = getIntent().getStringExtra(MenuActivity.TAG_HARGA);
-
+        gambar = getIntent().getByteArrayExtra(MenuActivity.TAG_GAMBAR);
 
         if (id == null || id.equals("")){
             setTitle("Tambah Data");
@@ -78,6 +79,15 @@ public class AddEditMenuActivity extends AppCompatActivity {
             etNama.setText(nama);
             etKeterangan.setText(keterangan);
             etHarga.setText(harga);
+
+            if(gambar == null) {
+                imageView.setImageResource(R.drawable.bg_semua);
+            } else {
+                byte[] datagambar = (byte[]) gambar;
+                Bitmap bitmap = BitmapFactory.decodeByteArray(datagambar, 0 ,datagambar.length);
+
+                imageView.setImageBitmap(bitmap);
+            }
         }
 
         btnimage.setOnClickListener(new View.OnClickListener() {
@@ -148,11 +158,11 @@ public class AddEditMenuActivity extends AppCompatActivity {
             SQLite.insert(etKode.getText().toString(), etKategori.getText().toString(),
                     etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteArray);
             blank();
-//            finish();
-//
-            Intent intent = new Intent(AddEditMenuActivity.this, ShowImageActivity.class);
-            intent.putExtra("GET_BYTE", byteArray);
-            startActivity(intent);
+            finish();
+
+//            Intent intent = new Intent(AddEditMenuActivity.this, ShowImageActivity.class);
+//            intent.putExtra("GET_BYTEE", byteArray);
+//            startActivity(intent);
         }
     }
 
@@ -164,8 +174,15 @@ public class AddEditMenuActivity extends AppCompatActivity {
                 etHarga.getText().toString().equals("")) {
             Toast.makeText(this, "Wajib Diisi Semua", Toast.LENGTH_SHORT).show();
         } else {
+            imageView.setDrawingCacheEnabled(true);
+            Bitmap bmap = imageView.getDrawingCache();
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+
             SQLite.update(Integer.parseInt(etId.getText().toString()), etKode.getText().toString(), etKategori.getText().toString(),
-                    etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString());
+                    etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteArray);
             blank();
             finish();
         }

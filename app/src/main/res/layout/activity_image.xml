@@ -2,6 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:scrollbars="none"
+    android:id="@+id/invoice_layout"
     android:padding="40dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -43,7 +44,8 @@
                     android:textSize="10sp" />
             </TableRow>
             <TableRow>
-                <TextView android:id="@+id/invoice_kasir"
+                <TextView
+                    android:id="@+id/invoice_kasir"
                     android:text="Kasir"
                     android:textSize="10sp"/>
                 <TextView android:id="@+id/invoice_time"
@@ -88,12 +90,16 @@
             <!-- end invoice item labels -->
             <!-- invoice items -->
             <TableRow>
-                <TextView android:text="Nasi+Sayur+Ayam"
+                <TextView
+                    android:id="@+id/smenu"
+                    android:text="Nasi+Sayur+Ayam"
                     android:padding="3dip"
                     android:textSize = "15px"
                     android:layout_width="150px"
                     android:layout_height="wrap_content" />
-                <TextView android:text="$500.00"
+                <TextView
+                    android:id="@+id/sharga"
+                    android:text="$500.00"
                     android:gravity="right"
                     android:padding="3dip"
                     android:textSize = "15px"
@@ -103,44 +109,6 @@
                     android:gravity="right"
                     android:padding="3dip"
                     android:textSize = "15px"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-            </TableRow>
-            <TableRow>
-                <TextView android:text="Es Jeruk Peras"
-                    android:padding="3dip"
-                    android:textSize = "15px"
-                    android:layout_width="150px"
-                    android:layout_height="wrap_content" />
-                <TextView android:text="$30.00"
-                    android:gravity="right"
-                    android:padding="3dip"
-                    android:textSize = "15px"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView android:text="116"
-                    android:gravity="right"
-                    android:padding="3dip"
-                    android:textSize = "15px"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-            </TableRow>
-            <!-- end invoice items -->
-
-            <TableRow>
-                <TextView android:text="Total"
-                    android:padding="3dip"
-                    android:textColor = "#090909"
-                    android:textSize = "10sp"
-                    android:textStyle = "bold"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-                <TextView android:text="Rp 30.000"
-                    android:gravity="right"
-                    android:padding="3dip"
-                    android:textColor = "#090909"
-                    android:textSize = "10sp"
-                    android:textStyle = "bold"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
             </TableRow>
@@ -155,7 +123,9 @@
                     android:textStyle = "bold"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
-                <TextView android:text="Rp 50.000"
+                <TextView
+                    android:id="@+id/stotalharga"
+                    android:text="Rp 50.000"
                     android:paddingTop="4dip"
                     android:paddingLeft="3dip"
                     android:textColor = "#090909"
@@ -166,25 +136,25 @@
                     android:layout_height="wrap_content" />
             </TableRow>
 
-            <TableRow>
-                <TextView android:text="Kembali"
-                    android:paddingTop="4dip"
-                    android:paddingLeft="3dip"
-                    android:textColor = "#090909"
-                    android:textSize = "10sp"
-                    android:textStyle = "bold"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-                <TextView android:text="Rp 20.000"
-                    android:paddingTop="4dip"
-                    android:paddingLeft="3dip"
-                    android:textColor = "#090909"
-                    android:textSize = "10sp"
-                    android:textStyle = "bold"
-                    android:gravity="right"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-            </TableRow>
+<!--            <TableRow>-->
+<!--                <TextView android:text="Kembali"-->
+<!--                    android:paddingTop="4dip"-->
+<!--                    android:paddingLeft="3dip"-->
+<!--                    android:textColor = "#090909"-->
+<!--                    android:textSize = "10sp"-->
+<!--                    android:textStyle = "bold"-->
+<!--                    android:layout_width="fill_parent"-->
+<!--                    android:layout_height="wrap_content" />-->
+<!--                <TextView android:text="Rp 20.000"-->
+<!--                    android:paddingTop="4dip"-->
+<!--                    android:paddingLeft="3dip"-->
+<!--                    android:textColor = "#090909"-->
+<!--                    android:textSize = "10sp"-->
+<!--                    android:textStyle = "bold"-->
+<!--                    android:gravity="right"-->
+<!--                    android:layout_width="fill_parent"-->
+<!--                    android:layout_height="wrap_content" />-->
+<!--            </TableRow>-->
 
         </TableLayout>
         <!-- end invoice items -->

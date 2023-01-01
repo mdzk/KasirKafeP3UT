@@ -1,5 +1,6 @@
 package com.example.kasirkafep3ut.helper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -70,6 +71,20 @@ public class DbMenuHelper extends SQLiteOpenHelper {
         return wordList;
     }
 
+    @SuppressLint("Range")
+    public String getMenuData(String kode) {
+        String selectQuery = "SELECT nama FROM " + TABLE_MENU + " WHERE kode = '"+ kode +"'";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        if (cursor.moveToFirst()) {
+            String str;
+            str = cursor.getString(cursor.getColumnIndex("nama"));
+            return str;
+        }
+        return null;
+    }
+
     public void insert(String kode, String kategori, String nama, String keterangan, String harga, byte[] gambar) {
         SQLiteDatabase database = this.getWritableDatabase();
         String queryValue = "INSERT INTO " + TABLE_MENU + " (kode, kategori, nama, keterangan, harga, gambar) " +
@@ -79,13 +94,14 @@ public class DbMenuHelper extends SQLiteOpenHelper {
         database.close();
     }
 
-    public void update(int id, String kode, String kategori, String nama, String keterangan, String harga) {
+    public void update(int id, String kode, String kategori, String nama, String keterangan, String harga, byte[] gambar) {
         SQLiteDatabase database = this.getWritableDatabase();
         String updateQuery = "UPDATE " + TABLE_MENU + " SET "
                 + COL_KODE + "='" + kode + "', "
                 + COL_KATEGORI + "='" + kategori + "',"
                 + COL_NAMA + "='" + nama + "',"
                 + COL_KETERANGAN + "='" + keterangan + "',"
+                + COL_GAMBAR + "='" + gambar + "',"
                 + COL_HARGA + "='" + harga + "'"
                 + " WHERE " + COL_ID + "=" + "'" + id + "'";
         Log.e("Update SQLite ", updateQuery);

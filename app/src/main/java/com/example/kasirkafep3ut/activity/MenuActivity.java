@@ -9,11 +9,13 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.kasirkafep3ut.R;
@@ -78,6 +80,7 @@ public class MenuActivity extends AppCompatActivity {
                 final Object nama = itemList.get(position).getNama();
                 final Object keterangan = itemList.get(position).getKeterangan();
                 final Object harga = itemList.get(position).getHarga();
+                final Object gambar = itemList.get(position).getGambar();
 
                 final CharSequence[] dialogItem = {"Edit", "Hapus"};
                 dialog = new AlertDialog.Builder(MenuActivity.this);
@@ -94,6 +97,7 @@ public class MenuActivity extends AppCompatActivity {
                                 intent.putExtra(TAG_NAMA, (String) nama);
                                 intent.putExtra(TAG_KETERANGAN, (String) keterangan);
                                 intent.putExtra(TAG_HARGA, (String) harga);
+                                intent.putExtra(TAG_GAMBAR, (byte[]) gambar);
                                 startActivity(intent);
                                 break;
                             case 1:

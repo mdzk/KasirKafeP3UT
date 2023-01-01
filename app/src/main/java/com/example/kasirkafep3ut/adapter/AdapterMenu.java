@@ -70,7 +70,6 @@ public class AdapterMenu extends BaseAdapter {
         TextView nama = view.findViewById(R.id.tv_nama);
         TextView keterangan = view.findViewById(R.id.tv_ket);
         TextView harga = view.findViewById(R.id.tv_harga);
-        ImageView gambar = view.findViewById(R.id.imageViewMenu);
 
         DataMenu data = items.get(i);
 
@@ -80,19 +79,6 @@ public class AdapterMenu extends BaseAdapter {
         nama.setText((String) data.getNama());
         keterangan.setText((String) data.getKeterangan());
         harga.setText((String) data.getHarga());
-
-//        try {
-
-            byte[] datagambar = (byte[]) data.getGambar();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(datagambar, 0 ,datagambar.length);
-//            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.blackbuck);
-
-            gambar.setImageBitmap(bitmap);
-//            gambar.setImageResource("a");
-//        } catch (Exception e) {
-//            Log.e("e", String.valueOf(e));
-//        }
-
 
         return view;
     }
