@@ -79,26 +79,11 @@ public class ImageActivity extends AppCompatActivity {
                 break;
             case R.id.printInvoice:
                 createPdfFromView(findViewById(R.id.invoice_layout), "invoice", 720, 1080, 1);
-                printPDF("invoice");
                 return(true);
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
-    }
-
-    private void printPDF(String fileName){
-        PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
-        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        File file = new File(path, fileName.concat(".pdf"));
-        try {
-            PrintDocumentAdapter printDocumentAdapter = new PdfDocumentAdapter(ImageActivity.this, file.getPath());
-            printManager.print("Document",printDocumentAdapter,new PrintAttributes.Builder().build());
-        }catch (Exception ex){
-            Log.e("Harshita",""+ex.getMessage());
-            Toast.makeText(ImageActivity.this, "Can't read pdf file", Toast.LENGTH_SHORT).show();
-
-        }
     }
 
     private void createPdfFromView(View view, String fileName, int pageWidth, int pageHeight, int pageNumber) {
@@ -137,15 +122,23 @@ public class ImageActivity extends AppCompatActivity {
             }
 
             document.close();
-
-            /*Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);*/
-
+            printPDF(fileName);
         } else {
             //..
         }
+    }
 
+    private void printPDF(String fileName){
+        PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        File file = new File(path, fileName.concat(".pdf"));
+        try {
+            PrintDocumentAdapter printDocumentAdapter = new PdfDocumentAdapter(ImageActivity.this, file.getPath());
+            printManager.print("Document",printDocumentAdapter,new PrintAttributes.Builder().build());
+        }catch (Exception ex){
+            Log.e("Harshita",""+ex.getMessage());
+            Toast.makeText(ImageActivity.this, "Can't read pdf file", Toast.LENGTH_SHORT).show();
+
+        }
     }
 }
