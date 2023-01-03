@@ -1,6 +1,9 @@
 package com.example.kasirkafep3ut.helper;
 
+import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
+
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -100,27 +103,43 @@ public class DbMenuHelper extends SQLiteOpenHelper {
     }
 
     public void insert(String kode, String kategori, String nama, String keterangan, String harga, byte[] gambar) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        String queryValue = "INSERT INTO " + TABLE_MENU + " (kode, kategori, nama, keterangan, harga, gambar) " +
-                "VALUES ('" + kode + "', '" + kategori + "', '" + nama + "', '" + keterangan + "', '" + harga + "', '" + gambar + "')";
-        Log.e("Insert SQLite ", "" + queryValue);
-        database.execSQL(queryValue);
-        database.close();
+        SQLiteDatabase myDb = this.getWritableDatabase();
+        ContentValues newValues = new ContentValues();
+        newValues.put("kode", kode);
+        newValues.put("kategori", kategori);
+        newValues.put("nama", nama);
+        newValues.put("keterangan", keterangan);
+        newValues.put("harga", harga);
+        newValues.put("gambar", gambar);
+        long ret = myDb.insert(TABLE_MENU, null, newValues);
+        myDb.close();
     }
 
     public void update(int id, String kode, String kategori, String nama, String keterangan, String harga, byte[] gambar) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        String updateQuery = "UPDATE " + TABLE_MENU + " SET "
-                + COL_KODE + "='" + kode + "', "
-                + COL_KATEGORI + "='" + kategori + "',"
-                + COL_NAMA + "='" + nama + "',"
-                + COL_KETERANGAN + "='" + keterangan + "',"
-                + COL_GAMBAR + "='" + gambar + "',"
-                + COL_HARGA + "='" + harga + "'"
-                + " WHERE " + COL_ID + "=" + "'" + id + "'";
-        Log.e("Update SQLite ", updateQuery);
-        database.execSQL(updateQuery);
-        database.close();
+//        SQLiteDatabase database = this.getWritableDatabase();
+//        String updateQuery = "UPDATE " + TABLE_MENU + " SET "
+//                + COL_KODE + "='" + kode + "', "
+//                + COL_KATEGORI + "='" + kategori + "',"
+//                + COL_NAMA + "='" + nama + "',"
+//                + COL_KETERANGAN + "='" + keterangan + "',"
+//                + COL_GAMBAR + "='" + gambar + "',"
+//                + COL_HARGA + "='" + harga + "'"
+//                + " WHERE " + COL_ID + "=" + "'" + id + "'";
+//        Log.e("Update SQLite ", updateQuery);
+//        database.execSQL(updateQuery);
+//        database.close();
+
+        SQLiteDatabase myDb = this.getWritableDatabase();
+        ContentValues newValues = new ContentValues();
+        newValues.put("kode", kode);
+        newValues.put("kategori", kategori);
+        newValues.put("nama", nama);
+        newValues.put("keterangan", keterangan);
+        newValues.put("harga", harga);
+        newValues.put("gambar", gambar);
+
+        long ret = myDb.update(TABLE_MENU, newValues, "id" + " = ?", new String[]{String.valueOf(id)});
+        myDb.close();
     }
 
     public void delete(int id) {

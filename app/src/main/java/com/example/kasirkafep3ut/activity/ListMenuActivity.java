@@ -30,6 +30,7 @@ public class ListMenuActivity extends AppCompatActivity {
     public static final String TAG_NAMA = "nama";
     public static final String TAG_KETERANGAN = "keterangan";
     public static final String TAG_HARGA = "harga";
+    public static final String TAG_GAMBAR = "gambar";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class ListMenuActivity extends AppCompatActivity {
             String nama = (String) row.get(i).get(TAG_NAMA);
             String keterangan = (String) row.get(i).get(TAG_KETERANGAN);
             String harga = (String) row.get(i).get(TAG_HARGA);
+            byte[] gambar = (byte[]) row.get(i).get(TAG_GAMBAR);
 
             DataMenu data = new DataMenu();
             data.setId(id);
@@ -74,6 +76,7 @@ public class ListMenuActivity extends AppCompatActivity {
             data.setNama(nama);
             data.setKeterangan(keterangan);
             data.setHarga(harga);
+            data.setGambar(gambar);
 
             itemList.add(data);
 

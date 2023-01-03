@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,26 +21,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.kasirkafep3ut.R;
 import com.example.kasirkafep3ut.helper.DbMenuHelper;
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AddEditMenuActivity extends AppCompatActivity {
 
@@ -151,39 +140,19 @@ public class AddEditMenuActivity extends AppCompatActivity {
                 etHarga.getText().toString().equals("")) {
             Toast.makeText(this, "Wajib Diisi Semua", Toast.LENGTH_SHORT).show();
         } else {
-            imageView.setDrawingCacheEnabled(true);
-            Bitmap bmap = imageView.getDrawingCache();
+            byte[] byteImage1 = null;
+            FileInputStream instream = new FileInputStream(selectedImagePath);
+            BufferedInputStream bif = new BufferedInputStream(instream);
+            byteImage1 = new byte[bif.available()];
+            bif.read(byteImage1);
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-
-//            SQLite.insert(etKode.getText().toString(), etKategori.getText().toString(),etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteArray);
-//            blank();
-//            finish();
-
-//            Intent intent = new Intent(AddEditMenuActivity.this, ShowImageActivity.class);
-//            intent.putExtra("GET_BYTE", byteArray);
-//            startActivity(intent);
-            
-
-                FileInputStream instream = new FileInputStream(selectedImagePath);
-                BufferedInputStream bif = new BufferedInputStream(instream);
-                byte[] byteImage1 = new byte[bif.available()];
-
-
-
-//                bif.read(byteImage1);
-
-                SQLite.insert(etKode.getText().toString(), etKategori.getText().toString(),etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteImage1);
-                blank();
-                finish();
-                
-
+            SQLite.insert(etKode.getText().toString(), etKategori.getText().toString(),etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteImage1);
+            blank();
+            finish();
         }
     }
 
-    private void edit() {
+    private void edit() throws IOException {
         if (etKode.getText().toString().equals("") ||
                 etKategori.getText().toString().equals("") ||
                 etNama.getText().toString().equals("") ||
@@ -191,15 +160,14 @@ public class AddEditMenuActivity extends AppCompatActivity {
                 etHarga.getText().toString().equals("")) {
             Toast.makeText(this, "Wajib Diisi Semua", Toast.LENGTH_SHORT).show();
         } else {
-            imageView.setDrawingCacheEnabled(true);
-            Bitmap bmap = imageView.getDrawingCache();
-
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
+            byte[] byteImage1 = null;
+            FileInputStream instream = new FileInputStream(selectedImagePath);
+            BufferedInputStream bif = new BufferedInputStream(instream);
+            byteImage1 = new byte[bif.available()];
+            bif.read(byteImage1);
 
             SQLite.update(Integer.parseInt(etId.getText().toString()), etKode.getText().toString(), etKategori.getText().toString(),
-                    etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteArray);
+                    etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteImage1);
             blank();
             finish();
         }
@@ -221,18 +189,4 @@ public class AddEditMenuActivity extends AppCompatActivity {
             selectedImagePath = cursor.getString(columnIndex);
         }
     }
-
-//    void readFromDB() {
-//        byte[] byteImage2 = (byte[]) gambar;
-//        setImage(byteImage2);
-//        Toast.makeText(this.getBaseContext(),
-//                "Image read from DB successfully.", Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this.getBaseContext(),
-//                "If your image is big, please scrolldown to see the result.",
-//                Toast.LENGTH_SHORT).show();
-//    }
-//
-//    void setImage(byte[] byteImage2) {
-//        imageView.setImageBitmap(BitmapFactory.decodeByteArray(byteImage2, 0, byteImage2.length));
-//    }
 }
