@@ -112,7 +112,6 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
         getAllData();
-
     }
 
     private void getAllData() {

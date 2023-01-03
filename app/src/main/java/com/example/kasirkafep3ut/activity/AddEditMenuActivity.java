@@ -1,6 +1,8 @@
 package com.example.kasirkafep3ut.activity;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -19,30 +21,39 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kasirkafep3ut.R;
 import com.example.kasirkafep3ut.helper.DbMenuHelper;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddEditMenuActivity extends AppCompatActivity {
 
     Button btnSubmit, btnCancel, btnimage;
     Bitmap databitmap;
-    Object gambar;
+    byte[] gambar;
     ImageView imageView;
     int SELECT_IMAGE_CODE=1;
     EditText etId, etKode, etKategori, etNama, etKeterangan, etHarga;
     DbMenuHelper SQLite = new DbMenuHelper(this);
     String id, kode, kategori, nama, keterangan, harga;
+
+    private String selectedImagePath;
+    private static DownloadManager.Query ContentResolver;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -79,15 +90,7 @@ public class AddEditMenuActivity extends AppCompatActivity {
             etNama.setText(nama);
             etKeterangan.setText(keterangan);
             etHarga.setText(harga);
-
-            if(gambar == null) {
-                imageView.setImageResource(R.drawable.bg_semua);
-            } else {
-                byte[] datagambar = (byte[]) gambar;
-                Bitmap bitmap = BitmapFactory.decodeByteArray(datagambar, 0 ,datagambar.length);
-
-                imageView.setImageBitmap(bitmap);
-            }
+            imageView.setImageBitmap(BitmapFactory.decodeByteArray(gambar, 0, gambar.length));
         }
 
         btnimage.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +98,7 @@ public class AddEditMenuActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setAction(Intent.ACTION_PICK);
                 startActivityForResult(Intent.createChooser(intent, "Title"), SELECT_IMAGE_CODE);
             }
         });
@@ -155,14 +158,28 @@ public class AddEditMenuActivity extends AppCompatActivity {
             bmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             byte[] byteArray = stream.toByteArray();
 
-            SQLite.insert(etKode.getText().toString(), etKategori.getText().toString(),
-                    etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteArray);
-            blank();
-            finish();
+//            SQLite.insert(etKode.getText().toString(), etKategori.getText().toString(),etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteArray);
+//            blank();
+//            finish();
 
 //            Intent intent = new Intent(AddEditMenuActivity.this, ShowImageActivity.class);
-//            intent.putExtra("GET_BYTEE", byteArray);
+//            intent.putExtra("GET_BYTE", byteArray);
 //            startActivity(intent);
+            
+
+                FileInputStream instream = new FileInputStream(selectedImagePath);
+                BufferedInputStream bif = new BufferedInputStream(instream);
+                byte[] byteImage1 = new byte[bif.available()];
+
+
+
+//                bif.read(byteImage1);
+
+                SQLite.insert(etKode.getText().toString(), etKategori.getText().toString(),etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteImage1);
+                blank();
+                finish();
+                
+
         }
     }
 
@@ -193,29 +210,29 @@ public class AddEditMenuActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode==1) {
-            Uri uri = data.getData();
-            imageView.setImageURI(uri);
+            Uri selectedImageUri = data.getData();
+            imageView.setImageURI(selectedImageUri);
 
-//            String path = getRealPathFromURI(getApplicationContext(), uri);
-//            Log.d("e", path);
-//            Toast.makeText(this, imageView.setImageURI(uri), Toast.LENGTH_SHORT).show();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
+            Cursor cursor = getContentResolver().query(selectedImageUri,filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            selectedImagePath = cursor.getString(columnIndex);
         }
     }
-//    public String getRealPathFromURI(Context context, Uri contentUri) {
-//        Cursor cursor = null;
-//        try {
-//            String[] proj = {MediaStore.Images.Media.DATA};
-//            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-//            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//            cursor.moveToFirst();
-//            return cursor.getString(column_index);
-//        } finally {
-//            if (cursor != null) {
-//                cursor.close();
-//            }
-//        }
+
+//    void readFromDB() {
+//        byte[] byteImage2 = (byte[]) gambar;
+//        setImage(byteImage2);
+//        Toast.makeText(this.getBaseContext(),
+//                "Image read from DB successfully.", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this.getBaseContext(),
+//                "If your image is big, please scrolldown to see the result.",
+//                Toast.LENGTH_SHORT).show();
 //    }
-
-
+//
+//    void setImage(byte[] byteImage2) {
+//        imageView.setImageBitmap(BitmapFactory.decodeByteArray(byteImage2, 0, byteImage2.length));
+//    }
 }

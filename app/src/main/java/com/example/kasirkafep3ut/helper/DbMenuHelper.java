@@ -85,6 +85,20 @@ public class DbMenuHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    @SuppressLint("Range")
+    public Object getSampleBlob() {
+        String selectQuery = "SELECT gambar FROM " + TABLE_MENU + " WHERE nama = 'a'";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        if (cursor.moveToFirst()) {
+            Object str;
+            str = cursor.getBlob(cursor.getColumnIndex("gambar"));
+            return str;
+        }
+        return null;
+    }
+
     public void insert(String kode, String kategori, String nama, String keterangan, String harga, byte[] gambar) {
         SQLiteDatabase database = this.getWritableDatabase();
         String queryValue = "INSERT INTO " + TABLE_MENU + " (kode, kategori, nama, keterangan, harga, gambar) " +
