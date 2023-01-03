@@ -27,13 +27,13 @@ import com.example.kasirkafep3ut.R;
 import com.example.kasirkafep3ut.helper.DbMenuHelper;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 public class AddEditMenuActivity extends AppCompatActivity {
 
     Button btnSubmit, btnCancel, btnimage;
-    Bitmap databitmap;
     byte[] gambar;
     ImageView imageView;
     int SELECT_IMAGE_CODE=1;
@@ -132,7 +132,7 @@ public class AddEditMenuActivity extends AppCompatActivity {
         etHarga.setText(null);
     }
 
-    private void save() throws IOException {
+    private void save(){
         if (etKode.getText().toString().equals("") ||
                 etKategori.getText().toString().equals("") ||
                 etNama.getText().toString().equals("") ||
@@ -140,19 +140,13 @@ public class AddEditMenuActivity extends AppCompatActivity {
                 etHarga.getText().toString().equals("")) {
             Toast.makeText(this, "Wajib Diisi Semua", Toast.LENGTH_SHORT).show();
         } else {
-            byte[] byteImage1 = null;
-            FileInputStream instream = new FileInputStream(selectedImagePath);
-            BufferedInputStream bif = new BufferedInputStream(instream);
-            byteImage1 = new byte[bif.available()];
-            bif.read(byteImage1);
-
-            SQLite.insert(etKode.getText().toString(), etKategori.getText().toString(),etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteImage1);
+            SQLite.insert(etKode.getText().toString(), etKategori.getText().toString(),etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), getImage());
             blank();
             finish();
         }
     }
 
-    private void edit() throws IOException {
+    private void edit(){
         if (etKode.getText().toString().equals("") ||
                 etKategori.getText().toString().equals("") ||
                 etNama.getText().toString().equals("") ||
@@ -160,14 +154,8 @@ public class AddEditMenuActivity extends AppCompatActivity {
                 etHarga.getText().toString().equals("")) {
             Toast.makeText(this, "Wajib Diisi Semua", Toast.LENGTH_SHORT).show();
         } else {
-            byte[] byteImage1 = null;
-            FileInputStream instream = new FileInputStream(selectedImagePath);
-            BufferedInputStream bif = new BufferedInputStream(instream);
-            byteImage1 = new byte[bif.available()];
-            bif.read(byteImage1);
-
             SQLite.update(Integer.parseInt(etId.getText().toString()), etKode.getText().toString(), etKategori.getText().toString(),
-                    etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), byteImage1);
+                    etNama.getText().toString(), etKeterangan.getText().toString(), etHarga.getText().toString(), getImage());
             blank();
             finish();
         }
@@ -188,5 +176,29 @@ public class AddEditMenuActivity extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             selectedImagePath = cursor.getString(columnIndex);
         }
+    }
+
+    public byte[] getImage() {
+        File image = new File(selectedImagePath);
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
+
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = 300;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = 300;
+            width = (int) (height * bitmapRatio);
+        }
+
+        Bitmap a = Bitmap.createScaledBitmap(bitmap, width, height, true);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        a.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteImage1 = stream.toByteArray();
+        return byteImage1;
     }
 }
